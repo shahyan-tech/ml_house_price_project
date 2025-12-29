@@ -9,14 +9,17 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Data
-data/raw/*
-data/clean/*
+# Data (allow CSVs)
+data/*
+!data/raw/
+!data/clean/
+!data/raw/*.csv
+!data/clean/*.csv
 !data/raw/.gitkeep
 !data/clean/.gitkeep
 
-# Models
-models/*
+# Models (DO NOT COMMIT TRAINED MODELS)
+models/*.pkl
 
 # OS
 .DS_Store
