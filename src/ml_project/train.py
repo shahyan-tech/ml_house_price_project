@@ -31,7 +31,7 @@ num_pipeline = Pipeline([
 
 cat_pipeline = Pipeline([
     ("imputer", SimpleImputer(strategy="constant", fill_value="None")),
-    ("encoder", OneHotEncoder(handle_unknown="ignore", sparse=False))
+    ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False))
 ])
 
 preprocessor = ColumnTransformer([
