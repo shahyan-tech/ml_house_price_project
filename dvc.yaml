@@ -1,0 +1,9 @@
+stages:
+  train:
+    cmd: python src/ml_project/train.py
+    deps:
+      - src/ml_project/train.py
+      - src/ml_project/  # you can list specific files if preferred
+      - data/clean/train_clean.csv
+    outs:
+      - models/gradientboosting_pipeline.pkl

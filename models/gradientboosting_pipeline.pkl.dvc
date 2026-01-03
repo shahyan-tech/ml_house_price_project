@@ -1,5 +1,0 @@
-outs:
-- md5: ee9c9af807483e225e722d23eb5835a5
-  size: 652175
-  hash: md5
-  path: gradientboosting_pipeline.pkl
