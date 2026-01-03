@@ -1,0 +1,43 @@
+name: ML API CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install dvc[all] mlflow
+
+      - name: Pull DVC data + models
+        run: dvc pull
+
+      - name: Run API tests
+        run: python test_api.py
+
+      - name: Build Docker image
+        run: docker build -t ml-house-price-api:ci .
+
+      - name: Run Docker container and test API
+        run: |
+          docker run -d -p 8000:8000 --name test_container ml-house-price-api:ci
+          sleep 5
+          python test_api.py
+          docker stop test_container
+          docker rm test_container
