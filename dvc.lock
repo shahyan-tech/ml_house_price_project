@@ -1,0 +1,23 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python src/ml_project/train.py
+    deps:
+    - path: data/clean/train_clean.csv
+      hash: md5
+      md5: 55449f1071b28c2faf89379a73328dc2
+      size: 398858
+    - path: src/ml_project/
+      hash: md5
+      md5: 36ee1aeeb3152a7c861fc32dd93dd5ba.dir
+      size: 4410
+      nfiles: 2
+    - path: src/ml_project/train.py
+      hash: md5
+      md5: 81b01d6d6720b5605cd604368d70be72
+      size: 4410
+    outs:
+    - path: models/gradient_boosting_pipeline.pkl
+      hash: md5
+      md5: 866a6442492fa49ec46e420203e234ed
+      size: 67944
