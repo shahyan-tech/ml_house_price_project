@@ -1,3 +1,4 @@
+# .github/workflows/ci-cd.yml
 name: ML API CI/CD
 
 on:
@@ -10,48 +11,45 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    env:
-      AWS_REGION: us-east-1  # replace with your S3 bucket region
-
     steps:
-      # 1️⃣ Checkout repo
-      - name: Checkout repository
+      # Step 1: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      # 2️⃣ Set up Python
+      # Step 2: Set up Python
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
 
-      # 3️⃣ Install dependencies
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install dvc[all] mlflow boto3  # boto3 needed for S3 access
+          pip install "dvc[all]" mlflow
 
-      # 4️⃣ Configure AWS credentials for DVC S3 remote
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+      # Step 4: Configure DVC to use local remote
+      - name: Configure DVC local remote
+        run: |
+          # Make sure DVC points to local folder inside repo for CI
+          dvc remote remove origin || true
+          mkdir -p dvc-storage/ml_house_price_project
+          dvc remote add -d origin dvc-storage/ml_house_price_project
 
-      # 5️⃣ Pull data & model from DVC remote
-      - name: Pull DVC data and model
-        run: dvc pull -r origin
+      # Step 5: Pull DVC data + model
+      - name: Pull DVC data and models
+        run: dvc pull
 
-      # 6️⃣ Run API tests
+      # Step 6: Run API test (pre-Docker)
       - name: Run API tests
         run: python test_api.py
 
-      # 7️⃣ Build Docker image
+      # Step 7: Build Docker image
       - name: Build Docker image
         run: docker build -t ml-house-price-api:ci .
 
-      # 8️⃣ Run Docker container and test API
+      # Step 8: Run Docker container and test API
       - name: Run Docker container and test API
         run: |
           docker run -d -p 8000:8000 --name test_container ml-house-price-api:ci
