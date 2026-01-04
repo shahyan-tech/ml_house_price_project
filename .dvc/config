@@ -1,6 +1,6 @@
 [core]
-    remote = origin
+    remote = storage
 ['remote "storage"']
-    url = ../dvc-storage/ml_house_price_project
+    url = ./dvc-storage/ml_house_price_project
 ['remote "origin"']
-    url = s3://mybucket/ml-house-price-project
+    url = gdrive://1IQ3Gg0-HAfzcqfgzECDA1r16rX8M64kr
