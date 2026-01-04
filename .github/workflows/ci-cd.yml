@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout code (including committed DVC cache)
       - name: Checkout repo
         uses: actions/checkout@v3
 
@@ -28,10 +28,7 @@ jobs:
           pip install -r requirements.txt
           pip install dvc[all] mlflow
 
-      # 4️⃣ Pull DVC tracked data & models from local cache
-      - name: Pull DVC data and models
-        run: dvc pull --run-cache
-        # Since we are using local DVC cache committed in repo, no remote needed
+      # 4️⃣ Skip DVC pull — cache is local/committed
 
       # 5️⃣ Run API tests
       - name: Run API tests
