@@ -1,0 +1,86 @@
+name: ML API CI/CD + K8s
+
+# Trigger on push or PR to main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_DIR: ml_house_price_project
+
+    steps:
+    # -------------------------------
+    # 1️⃣ Checkout repo
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # -------------------------------
+    # 2️⃣ Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    # -------------------------------
+    # 3️⃣ Install dependencies
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install dvc
+
+    # -------------------------------
+    # 4️⃣ Pull DVC data + models from local cache
+    # Assumes your repo includes `.dvc/cache` folder
+    - name: Pull DVC data/models
+      run: |
+        dvc pull --run-cache || echo "Skipping DVC pull if local cache not present"
+
+    # -------------------------------
+    # 5️⃣ Build Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t ml-house-price-api:ci .
+
+    # -------------------------------
+    # 6️⃣ Run container and test API
+    - name: Run API container and test
+      run: |
+        docker run -d -p 8000:8000 --name ml-api-test ml-house-price-api:ci
+        sleep 5  # wait for API to start
+        python test_api.py
+        docker stop ml-api-test
+        docker rm ml-api-test
+
+    # -------------------------------
+    # 7️⃣ (Optional) K8s deployment simulation using kind
+    # GitHub runners cannot run Minikube, so we use kind (Kubernetes in Docker)
+    - name: Set up kind (K8s in Docker)
+      uses: engineerd/setup-kind@v0.11.1
+
+    - name: Create kind cluster
+      run: kind create cluster --name ml-api-cluster
+
+    - name: Load Docker image into kind cluster
+      run: kind load docker-image ml-house-price-api:ci --name ml-api-cluster
+
+    - name: Apply Kubernetes manifests
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+
+    - name: Wait for pods ready
+      run: |
+        kubectl wait --for=condition=Ready pods -l app=ml-api --timeout=120s
+
+    - name: Test API in kind cluster
+      run: |
+        # Port-forward to test API
+        kubectl port-forward svc/ml-api-service 8000:8000 &
+        sleep 5
+        python test_api.py

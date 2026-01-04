@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-api-deployment
+  labels:
+    app: ml-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ml-api
+  template:
+    metadata:
+      labels:
+        app: ml-api
+    spec:
+      containers:
+      - name: ml-api
+        image: ml-house-price-api:ci
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
