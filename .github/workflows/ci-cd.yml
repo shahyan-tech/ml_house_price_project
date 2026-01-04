@@ -28,21 +28,25 @@ jobs:
           pip install -r requirements.txt
           pip install dvc[all] mlflow requests
 
-      # 4️⃣ Build Docker image
+      # 4️⃣ Pull data with DVC
+      - name: Pull data with DVC
+        run: dvc pull
+
+      # 5️⃣ Build Docker image
       - name: Build Docker image
         run: docker build -t ml-house-price-api:ci .
 
-      # 5️⃣ Run Docker container in background
+      # 6️⃣ Run Docker container in background
       - name: Run Docker container
         run: |
           docker run -d -p 8000:8000 --name test_container ml-house-price-api:ci
           sleep 5  # wait for FastAPI to start
 
-      # 6️⃣ Run API tests
+      # 7️⃣ Run API tests
       - name: Run API tests
         run: python test_api.py
 
-      # 7️⃣ Stop and remove container
+      # 8️⃣ Stop and remove container
       - name: Cleanup Docker
         run: |
           docker stop test_container
