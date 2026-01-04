@@ -1,0 +1,5 @@
+# frontend/requirements.txt
+# Dependencies for the Streamlit frontend.
+# Pinned versions for reproducibility and compatibility.
+streamlit==1.35.0  # Web UI framework for Python apps
+requests==2.32.3   # HTTP library for API calls
