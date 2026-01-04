@@ -30,7 +30,7 @@ jobs:
 
       # 4️⃣ Pull data with DVC
       - name: Pull data with DVC
-        run: dvc pull
+        run: dvc pull -r storage
 
       # 5️⃣ Build Docker image
       - name: Build Docker image
