@@ -2,16 +2,16 @@ name: ML API CI/CD
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     env:
-      AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_REGION: us-east-1  # replace with your S3 bucket region
 
     steps:
       # 1️⃣ Checkout repo
@@ -19,31 +19,31 @@ jobs:
         uses: actions/checkout@v3
 
       # 2️⃣ Set up Python
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: 3.11
 
       # 3️⃣ Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install dvc[all] mlflow
+          pip install dvc[all] mlflow boto3  # boto3 needed for S3 access
 
-      # 4️⃣ Configure AWS for DVC
+      # 4️⃣ Configure AWS credentials for DVC S3 remote
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
 
-      # 5️⃣ Pull DVC data and models
-      - name: Pull DVC data and models
-        run: dvc pull
+      # 5️⃣ Pull data & model from DVC remote
+      - name: Pull DVC data and model
+        run: dvc pull -r origin
 
-      # 6️⃣ Run API test (without Docker)
+      # 6️⃣ Run API tests
       - name: Run API tests
         run: python test_api.py
 
@@ -52,10 +52,10 @@ jobs:
         run: docker build -t ml-house-price-api:ci .
 
       # 8️⃣ Run Docker container and test API
-      - name: Run Docker container
+      - name: Run Docker container and test API
         run: |
-          docker run -d -p 8000:8000 --name ml-api ml-house-price-api:ci
-          sleep 10
+          docker run -d -p 8000:8000 --name test_container ml-house-price-api:ci
+          sleep 5
           python test_api.py
-          docker stop ml-api
-          docker rm ml-api
+          docker stop test_container
+          docker rm test_container
