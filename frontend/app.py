@@ -9,9 +9,8 @@ import requests  # For making HTTP requests to the API
 # =====================
 # Config
 # =====================
-# API_URL: Points to the FastAPI service. In K8s, use the service name; locally, use localhost.
-# Uses Streamlit secrets for flexibility (e.g., for different environments).
-API_URL = st.secrets.get("API_URL", "http://ml-api-service:8000")
+# API_URL: Points to the FastAPI service. In K8s, use the service name; locally in Docker, use host.docker.internal.
+API_URL = "http://host.docker.internal:8000"
 
 # Set page config for better UI (title and centered layout)
 st.set_page_config(
@@ -55,9 +54,12 @@ if submit:
         "GrLivArea": GrLivArea
     }
 
+    # Wrap in "features" as per API schema
+    data = {"features": payload}
+
     try:
         # Send POST request with JSON data and a 5-second timeout
-        response = requests.post(f"{API_URL}/predict", json=payload, timeout=5)
+        response = requests.post(f"{API_URL}/predict", json=data, timeout=5)
 
         if response.status_code == 200:
             # Parse JSON response and display success with formatted price
