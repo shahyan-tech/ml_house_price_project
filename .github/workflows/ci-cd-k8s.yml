@@ -58,16 +58,13 @@ jobs:
         docker rm ml-api-test
 
     # -------------------------------
-    # 7️⃣ (Optional) K8s deployment simulation using kind
-    # GitHub runners cannot run Minikube, so we use kind (Kubernetes in Docker)
-    - name: Set up kind (K8s in Docker)
-      uses: engineerd/setup-kind@v0.11.1
-
-    - name: Create kind cluster
-      run: kind create cluster --name ml-api-cluster
+    # 7️⃣ Set up kind (K8s in Docker)
+    - name: Set up kind
+      uses: helm/kind-action@v1.10.0
 
     - name: Load Docker image into kind cluster
-      run: kind load docker-image ml-house-price-api:ci --name ml-api-cluster
+      run: |
+        kind load docker-image ml-house-price-api:ci
 
     - name: Apply Kubernetes manifests
       run: |
