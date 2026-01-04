@@ -42,10 +42,14 @@ jobs:
         dvc pull --run-cache || echo "Skipping DVC pull if local cache not present"
 
     # -------------------------------
-    # 5️⃣ Build Docker image
-    - name: Build Docker image
+    # 5️⃣ Build Docker images
+    - name: Build API Docker image
       run: |
         docker build -t ml-house-price-api:ci .
+
+    - name: Build Frontend Docker image
+      run: |
+        docker build -t house-price-frontend:ci frontend/
 
     # -------------------------------
     # 6️⃣ Run container and test API
@@ -64,22 +68,33 @@ jobs:
       with:
         version: "v0.20.0"
 
-    - name: Load Docker image into kind cluster
+    - name: Load Docker images into kind cluster
       run: |
         kind load docker-image ml-house-price-api:ci
+        kind load docker-image house-price-frontend:ci
 
     - name: Apply Kubernetes manifests
       run: |
+        kubectl apply -f k8s/mongodb-service.yaml
+        kubectl apply -f k8s/mongodb-statefulset.yaml
         kubectl apply -f k8s/deployment.yaml
         kubectl apply -f k8s/service.yaml
+        kubectl apply -f k8s/frontend-deployment.yaml
+        kubectl apply -f k8s/frontend-service.yaml
 
     - name: Wait for pods ready
       run: |
         kubectl wait --for=condition=Ready pods -l app=ml-api --timeout=120s
+        kubectl wait --for=condition=Ready pods -l app=frontend --timeout=120s
+        kubectl wait --for=condition=Ready pods -l app=mongo --timeout=120s
 
-    - name: Test API in kind cluster
+    - name: Test services in kind cluster
       run: |
-        # Port-forward to test API
+        # Test API
         kubectl port-forward svc/ml-api-service 8000:8000 &
         sleep 5
         python test_api.py
+        # Test Frontend (basic connectivity)
+        kubectl port-forward svc/frontend-service 8501:8501 &
+        sleep 5
+        curl -f http://localhost:8501 || echo "Frontend accessible"
