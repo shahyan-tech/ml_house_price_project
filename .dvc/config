@@ -1,4 +1,6 @@
 [core]
-    remote = storage
+    remote = origin
 ['remote "storage"']
     url = ../dvc-storage/ml_house_price_project
+['remote "origin"']
+    url = s3://mybucket/ml-house-price-project

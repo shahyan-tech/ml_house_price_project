@@ -2,36 +2,60 @@ name: ML API CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
     steps:
-      - name: Checkout repo
+      # 1️⃣ Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2️⃣ Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: '3.11'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install dvc[all] mlflow
 
+      # 4️⃣ Configure AWS for DVC
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      # 5️⃣ Pull DVC data and models
+      - name: Pull DVC data and models
+        run: dvc pull
+
+      # 6️⃣ Run API test (without Docker)
+      - name: Run API tests
+        run: python test_api.py
+
+      # 7️⃣ Build Docker image
       - name: Build Docker image
         run: docker build -t ml-house-price-api:ci .
 
-      - name: Run Docker container and test API
+      # 8️⃣ Run Docker container and test API
+      - name: Run Docker container
         run: |
-          docker run -d -p 8000:8000 --name test_container ml-house-price-api:ci
-          sleep 5
+          docker run -d -p 8000:8000 --name ml-api ml-house-price-api:ci
+          sleep 10
           python test_api.py
-          docker stop test_container
-          docker rm test_container
+          docker stop ml-api
+          docker rm ml-api

@@ -6,4 +6,4 @@ stages:
       - src/ml_project/  # you can list specific files if preferred
       - data/clean/train_clean.csv
     outs:
-      - models/gradientboosting_pipeline.pkl
+      - models/gradient_boosting_pipeline.pkl
