@@ -2,9 +2,9 @@
 # Dockerfile for the Streamlit frontend.
 # Builds a containerized app that can run alongside the API in K8s.
 
-FROM python:3.11-slim  # Lightweight Python base image
+FROM python:3.11-slim
 
-WORKDIR /app  # Set working directory inside container
+WORKDIR /app
 
 # Copy and install Python dependencies
 COPY requirements.txt .
