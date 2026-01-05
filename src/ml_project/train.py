@@ -27,22 +27,13 @@ from sklearn.ensemble import GradientBoostingRegressor
 import mlflow
 import mlflow.sklearn
 
-# ----------------------
-# Version check (Docker safe)
-# ----------------------
-REQUIRED_VERSIONS = {
-    "numpy": "1.26.4",
-    "pandas": "2.1.1",
-    "sklearn": "1.7.2",
-    "joblib": "1.3.2",
-}
-
-for pkg, ver in REQUIRED_VERSIONS.items():
-    actual = getattr(__import__(pkg), "__version__")
-    if actual != ver:
-        raise ValueError(f"{pkg} version mismatch: found {actual}, expected {ver}")
-
-print("Environment versions OK:", REQUIRED_VERSIONS)
+# Optional version logging
+print("Environment versions:", {
+    "numpy": np.__version__,
+    "pandas": pd.__version__,
+    "sklearn": sklearn.__version__,
+    "joblib": joblib.__version__,
+})
 
 # Paths (robust to execution location)
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
