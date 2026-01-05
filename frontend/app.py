@@ -10,7 +10,7 @@ import requests  # For making HTTP requests to the API
 # Config
 # =====================
 # API_URL: Points to the FastAPI service. In K8s, use the service name; locally in Docker, use host.docker.internal.
-API_URL = "http://host.docker.internal:8000"
+API_URL = "http://host.docker.internal:8001"
 
 # Set page config for better UI (title and centered layout)
 st.set_page_config(

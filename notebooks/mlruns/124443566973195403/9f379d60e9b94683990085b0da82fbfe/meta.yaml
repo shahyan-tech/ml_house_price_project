@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/9f379d60e9b94683990085b0da82fbfe/artifacts
+end_time: 1767581200927
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 9f379d60e9b94683990085b0da82fbfe
+run_name: AdaBoost
+run_uuid: 9f379d60e9b94683990085b0da82fbfe
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581199262
+status: 3
+tags: []
+user_id: shahy

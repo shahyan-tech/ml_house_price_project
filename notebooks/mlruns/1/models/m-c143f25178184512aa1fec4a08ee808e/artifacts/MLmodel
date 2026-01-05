@@ -1,0 +1,22 @@
+artifact_path: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/1/models/m-c143f25178184512aa1fec4a08ee808e/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.19
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.8.1
+model_id: m-c143f25178184512aa1fec4a08ee808e
+model_size_bytes: 1170647
+model_uuid: m-c143f25178184512aa1fec4a08ee808e
+prompts: null
+run_id: 9f031cd72a5246f4a899e2334b90fb6b
+utc_time_created: '2026-01-01 10:56:12.726439'

@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/55fa758b710149a1986ea6e348a50057/artifacts
+end_time: 1767581174881
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 55fa758b710149a1986ea6e348a50057
+run_name: GradientBoosting
+run_uuid: 55fa758b710149a1986ea6e348a50057
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581172678
+status: 3
+tags: []
+user_id: shahy

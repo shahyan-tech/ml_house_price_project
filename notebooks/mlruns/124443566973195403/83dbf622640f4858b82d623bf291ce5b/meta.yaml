@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/83dbf622640f4858b82d623bf291ce5b/artifacts
+end_time: 1767581300910
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 83dbf622640f4858b82d623bf291ce5b
+run_name: BayesianRidge
+run_uuid: 83dbf622640f4858b82d623bf291ce5b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581291472
+status: 3
+tags: []
+user_id: shahy

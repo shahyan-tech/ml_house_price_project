@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/139f891a1a9040ce8105a368614b61ff/artifacts
+end_time: 1767581196742
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 139f891a1a9040ce8105a368614b61ff
+run_name: MLP
+run_uuid: 139f891a1a9040ce8105a368614b61ff
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581176852
+status: 3
+tags: []
+user_id: shahy

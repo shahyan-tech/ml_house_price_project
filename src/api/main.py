@@ -25,7 +25,7 @@ except Exception as e:
     raise e
 
 # MONGODB CONNECTION
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://host.docker.internal:27017")
 
 try:
     mongo_client = MongoClient(MONGO_URI)
@@ -36,6 +36,9 @@ except Exception as e:
     mongo_client = None
     predictions_collection = None
     print("MongoDB connection failed:", e)
+
+# For container testing, disable MongoDB
+predictions_collection = None
 
 # FASTAPI APP
 app = FastAPI(title="House Price Prediction API")
@@ -67,7 +70,7 @@ def predict_price(features: InputFeatures):
         prediction_value = float(pred[0])
 
         # Save to MongoDB if connected
-        if predictions_collection:
+        if predictions_collection is not None:
             predictions_collection.insert_one({
                 "input": user_input,
                 "prediction": prediction_value,
@@ -87,7 +90,7 @@ def root():
 # HISTORY ENDPOINT
 @app.get("/history")
 def get_history():
-    if not predictions_collection:
+    if predictions_collection is None:
         return {"error": "MongoDB not connected"}
 
     try:

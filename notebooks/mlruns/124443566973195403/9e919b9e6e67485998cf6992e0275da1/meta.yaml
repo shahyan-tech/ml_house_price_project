@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/9e919b9e6e67485998cf6992e0275da1/artifacts
+end_time: 1767581165989
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 9e919b9e6e67485998cf6992e0275da1
+run_name: Ridge
+run_uuid: 9e919b9e6e67485998cf6992e0275da1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581165770
+status: 3
+tags: []
+user_id: shahy

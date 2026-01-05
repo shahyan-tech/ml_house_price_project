@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/5a53d7fc18cd4230a9d8cb0b8d7b691f/artifacts
+end_time: 1767581311953
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 5a53d7fc18cd4230a9d8cb0b8d7b691f
+run_name: HuberRegressor
+run_uuid: 5a53d7fc18cd4230a9d8cb0b8d7b691f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581300931
+status: 3
+tags: []
+user_id: shahy

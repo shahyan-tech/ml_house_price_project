@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/7d5041ab0ab54b708fd2490968727c77/artifacts
+end_time: 1767581323692
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 7d5041ab0ab54b708fd2490968727c77
+run_name: DecisionTree
+run_uuid: 7d5041ab0ab54b708fd2490968727c77
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581311972
+status: 3
+tags: []
+user_id: shahy

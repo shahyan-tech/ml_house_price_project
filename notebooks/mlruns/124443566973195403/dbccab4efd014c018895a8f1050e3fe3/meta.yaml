@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/dbccab4efd014c018895a8f1050e3fe3/artifacts
+end_time: 1767581203460
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: dbccab4efd014c018895a8f1050e3fe3
+run_name: Voting
+run_uuid: dbccab4efd014c018895a8f1050e3fe3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581200962
+status: 3
+tags: []
+user_id: shahy

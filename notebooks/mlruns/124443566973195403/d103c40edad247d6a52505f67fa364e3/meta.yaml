@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/d103c40edad247d6a52505f67fa364e3/artifacts
+end_time: 1767581265427
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: d103c40edad247d6a52505f67fa364e3
+run_name: LinearRegression
+run_uuid: d103c40edad247d6a52505f67fa364e3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581241264
+status: 3
+tags: []
+user_id: shahy

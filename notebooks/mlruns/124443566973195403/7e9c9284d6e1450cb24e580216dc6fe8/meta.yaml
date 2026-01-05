@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/7e9c9284d6e1450cb24e580216dc6fe8/artifacts
+end_time: 1767581175695
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 7e9c9284d6e1450cb24e580216dc6fe8
+run_name: KNN
+run_uuid: 7e9c9284d6e1450cb24e580216dc6fe8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581174926
+status: 3
+tags: []
+user_id: shahy

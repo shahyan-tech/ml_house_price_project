@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/Ml_Projects/ml_house_price_project/notebooks/mlruns/124443566973195403/82c68fc318e045f0966541d0a674383a/artifacts
+end_time: 1767581199250
+entry_point_name: ''
+experiment_id: '124443566973195403'
+lifecycle_stage: active
+run_id: 82c68fc318e045f0966541d0a674383a
+run_name: Bagging
+run_uuid: 82c68fc318e045f0966541d0a674383a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767581196749
+status: 3
+tags: []
+user_id: shahy
