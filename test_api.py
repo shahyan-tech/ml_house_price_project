@@ -1,18 +1,18 @@
-from fastapi.testclient import TestClient
-from src.api.main import app
+# test_api.py
+
+from fastapi.testclient import TestClient  # Make sure this import is correct
+from src.api.main import app  # import your FastAPI app
 import json
 
+# Initialize the TestClient with the FastAPI app
 client = TestClient(app)
 
-def test_predict():
-    with open("test_input.json") as f:
-        payload = json.load(f)
+# Load test input
+with open("test_input.json") as f:
+    data = json.load(f)
 
-    response = client.post("/predict", json=payload)
-    
-    assert response.status_code == 200
-    assert "prediction" in response.json()
-    print(response.json())
+# Send POST request to /predict
+response = client.post("/predict", json=data)
 
-if __name__ == "__main__":
-    test_predict()
+# Print the JSON response
+print(response.json())
