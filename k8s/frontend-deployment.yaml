@@ -16,5 +16,8 @@ spec:
         - name: frontend
           image: house-price-frontend:ci
           imagePullPolicy: Never
+          env:
+            - name: API_URL
+              value: http://ml-api-service:8000
           ports:
             - containerPort: 8501

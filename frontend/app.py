@@ -3,14 +3,14 @@
 # It provides a simple UI for users to input house features and get predictions from the FastAPI backend.
 # The app calls the /predict endpoint of the API (running on the same K8s cluster or locally).
 
-import streamlit as st  # Streamlit for building the web UI
-import requests  # For making HTTP requests to the API
+import streamlit as st
+import requests
+import os
 
 # =====================
 # Config
 # =====================
-# API_URL: Points to the FastAPI service. In K8s, use the service name; locally in Docker, use host.docker.internal.
-API_URL = "http://host.docker.internal:8001"
+API_URL = os.getenv("API_URL", "http://host.docker.internal:8001")
 
 # Set page config for better UI (title and centered layout)
 st.set_page_config(
