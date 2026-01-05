@@ -1,10 +1,18 @@
-import requests
+from fastapi.testclient import TestClient
+from src.api.main import app
 import json
 
-url = "http://127.0.0.1:8001/predict"
+client = TestClient(app)
 
-with open("test_input.json") as f:
-    data = json.load(f)
+def test_predict():
+    with open("test_input.json") as f:
+        payload = json.load(f)
 
-response = requests.post(url, json=data)
-print(response.json())
+    response = client.post("/predict", json=payload)
+    
+    assert response.status_code == 200
+    assert "prediction" in response.json()
+    print(response.json())
+
+if __name__ == "__main__":
+    test_predict()
