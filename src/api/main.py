@@ -26,16 +26,22 @@ except Exception as e:
 
 # MONGODB CONNECTION
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://host.docker.internal:27017")
+mongo_client = None
+predictions_collection = None
 
-try:
-    mongo_client = MongoClient(MONGO_URI)
-    db = mongo_client["house_price_db"]
-    predictions_collection = db["predictions"]
-    print("MongoDB connected successfully!")
-except Exception as e:
-    mongo_client = None
-    predictions_collection = None
-    print("MongoDB connection failed:", e)
+def connect_mongo():
+    global mongo_client, predictions_collection
+    if predictions_collection is not None:
+        return predictions_collection
+    try:
+        mongo_client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=2000)
+        mongo_client.admin.command("ping")
+        db = mongo_client["house_price_db"]
+        predictions_collection = db["predictions"]
+        return predictions_collection
+    except Exception as e:
+        predictions_collection = None
+        return None
 
 
 # FASTAPI APP
@@ -67,9 +73,9 @@ def predict_price(features: InputFeatures):
         pred = model.predict(df)
         prediction_value = float(pred[0])
 
-        # Save to MongoDB if connected
-        if predictions_collection is not None:
-            predictions_collection.insert_one({
+        coll = connect_mongo()
+        if coll is not None:
+            coll.insert_one({
                 "input": user_input,
                 "prediction": prediction_value,
                 "timestamp": datetime.utcnow()
@@ -88,11 +94,12 @@ def root():
 # HISTORY ENDPOINT
 @app.get("/history")
 def get_history():
-    if predictions_collection is None:
+    coll = connect_mongo()
+    if coll is None:
         return {"error": "MongoDB not connected"}
 
     try:
-        records = list(predictions_collection.find({}, {"_id": 0}))
+        records = list(coll.find({}, {"_id": 0}))
         return {"history": records}
     except Exception as e:
         return {"error": str(e)}
