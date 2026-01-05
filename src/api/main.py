@@ -37,8 +37,6 @@ except Exception as e:
     predictions_collection = None
     print("MongoDB connection failed:", e)
 
-# For container testing, disable MongoDB
-predictions_collection = None
 
 # FASTAPI APP
 app = FastAPI(title="House Price Prediction API")
