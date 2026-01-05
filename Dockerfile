@@ -20,8 +20,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy data and source
 COPY data ./data
 COPY src ./src
-COPY models ./models
-# Model is provided from repo; skip build-time training
+# Train the model inside the container (ensures version compatibility)
+RUN python src/ml_project/train.py
 
 EXPOSE 8000
 
